@@ -1,11 +1,16 @@
 /*************************************************************************
  * big-fac.c
- * 
+ *
  * Project:	Big-Numbers Factorial Simple Calculator
- * Author:	Janderson Silva
+ * Author:	Janderson Gomes
  * Blog:	artientista.blogspot.com
- * E-mail:	dparicarana@gmail.com 
+ * E-mail:	dparicarana@gmail.com
  * 
+ * Description:
+ * A simple program to calculate the factorial of very large numbers,
+ * capable of handling results with tens of thousands of digits.
+ *
+ * Disclaimer:
  * THIS SOFTWARE IS PROVIDED BY AUTHORS "AS IS" AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -17,81 +22,76 @@
  * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
  * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE. 
- * 
  ************************************************************************/
- 
+
 #include <stdio.h>
 
-// Número máximo de digitos do resultado (Máx. 10.000!)
-#define MAX_DIGITS_NUMBER 40000 /* veja o arquivo: README.pdf */
+// Maximum number of digits the result can hold (e.g., up to 10,000!)
+#define MAX_DIGITS_NUMBER 40000 /* Adjust based on README instructions */
 
-/* Nota: veja que este algoritmo não eficaz quando pretende-se calcular
- * o fatorial de números desconhecidos, uma vez que para a correta execução
- * do presente algorítmo, faz-se necessário a correção da variável
- * MAX_DIGITS_NUMBER para a correta acomodação do resultado na memória.
- * */
+/* Note: This algorithm is not optimized for calculating the factorial 
+ * of arbitrary numbers. The variable MAX_DIGITS_NUMBER must be adjusted 
+ * to ensure enough memory is allocated for the result.
+ */
 
 int main()
 {
-	// Vetor com capacidade de armazenar "MAX_DIGITS_NUMBER" valores.
-	char result[MAX_DIGITS_NUMBER]; 
-	// Variáveis auxiliares
-	int i, j, number, dcounter, carry, tmp;
-		
-	// Realiza a leitura do número
-	printf("Factorial Simple Calculator\n\n");
-	printf("Type a number (Example: 10000): ");
-	scanf("%d", &number);
-		
-	// Inicializa o vetor com apenas 1 digito, o digito 1
-	result[0] = 1;
-		
-	// Inicializa o contador de digitos do resultado, isto é,
-	// o resultado já contém um digito - o digito 1 acima.
-	dcounter = 1;
-	
-	// Inicializa a variável de transporte com o valor zero
-	carry = 0;
-		
-	// Imprime uma linha em branco
-	puts("");
-	
-	for (i = 1; i <= number; i++)
-	{
-		for (j = 0; j < dcounter; j++)
-		{
-			// tmp contém o produto "digito * digito"
-			tmp = result[j] * i + carry;
-			// result[j] contém o digito armazenado na posição j
-			result[j] = tmp % 10;			
-			// carry contém o valor de transporte que será armazenado
-			// nos últimos índices
-			carry = tmp / 10;
-		}
-			
-		// Laço de repetição que armazena o valor de transporte no vetor
-		while(carry > 0)
-		{
-			result[dcounter] = carry % 10;
-			carry /= 10;
-			dcounter++;
-		}
-		
-		// Imprime uma mensagem informando quantos digitos foram 
-		// calculados até o momento
-		printf("\r%d calculed digits...", dcounter);
-	}
-		
-	// Imprime uma linha em branco
-	puts("");
-		
-	// Imprime o resultado da operação
-	printf("\nfactorial of %d is equal to:\n\n", number);
-	for (i = dcounter - 1; i >= 0; i--)
-	{
-		printf("%d", result[i]);
-	}
-	
-	// finaliza a função principal corretamente
-	return(0);
+    // Array to store the digits of the result
+    char result[MAX_DIGITS_NUMBER]; 
+
+    // Auxiliary variables
+    int i, j, number, dcounter, carry, tmp;
+
+    // User input
+    printf("Factorial Simple Calculator\n\n");
+    printf("Enter a number (e.g., 10000): ");
+    scanf("%d", &number);
+
+    // Initialize the result array with the first digit (1)
+    result[0] = 1;
+
+    // Initialize the digit counter (starting with 1 digit)
+    dcounter = 1;
+
+    // Initialize the carry to zero
+    carry = 0;
+
+    // Empty line for clarity
+    puts("");
+
+    // Loop through numbers from 1 to the input number
+    for (i = 1; i <= number; i++)
+    {
+        // Multiply each digit in the result array by the current number
+        for (j = 0; j < dcounter; j++)
+        {
+            tmp = result[j] * i + carry; // Multiply and add carry
+            result[j] = tmp % 10;        // Store the single digit
+            carry = tmp / 10;            // Update the carry
+        }
+
+        // Handle any leftover carry
+        while (carry > 0)
+        {
+            result[dcounter] = carry % 10;
+            carry /= 10;
+            dcounter++;
+        }
+
+        // Display progress to the user
+        printf("\r%d digits calculated...", dcounter);
+    }
+
+    // Empty line for output formatting
+    puts("");
+
+    // Display the factorial result
+    printf("\nFactorial of %d is:\n\n", number);
+    for (i = dcounter - 1; i >= 0; i--)
+    {
+        printf("%d", result[i]);
+    }
+
+    // Return successful exit code
+    return 0;
 }
