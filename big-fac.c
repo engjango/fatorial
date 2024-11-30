@@ -2,7 +2,7 @@
  * big-fac.c
  * 
  * Project: Big-Positive-Numbers Factorial Calculator
- * Author: @jndgomes
+ * Author: github@engjango
  * 
  * Description:
  * This program calculates the factorial of very large numbers, capable of
