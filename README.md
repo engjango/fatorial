@@ -21,7 +21,7 @@ Prepare to witness the ultimate factorial computation tool! GigaFac is a mathema
 ```bash
 git clone https://github.com/engjango/fatorial
 cd fatorial
-gcc big-fac.c -o big-fac
+gcc big-fac.c -o big-fac -lm
 ./big-fac
 ```
 
